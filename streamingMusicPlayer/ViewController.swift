@@ -7,19 +7,20 @@
 //
 
 import UIKit
+import MediaPlayer
 
 class ViewController: UIViewController {
+    
+    var audioVideoPlayer: AVPlayer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let url = ""
+        if let streamingURL = URL(string: url) {
+            audioVideoPlayer = AVPlayer(url: streamingURL)
+            audioVideoPlayer.play()
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
