@@ -11,16 +11,14 @@ import MediaPlayer
 
 class ViewController: UIViewController {
     
-    var audioVideoPlayer: AVPlayer!
-
+    var player: EntertainmentPlayer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        player = EntertainmentPlayer()
         
         let url = ""
-        if let streamingURL = URL(string: url) {
-            audioVideoPlayer = AVPlayer(url: streamingURL)
-            audioVideoPlayer.play()
-        }
+        player.playStream(fileURL: url)
     }
 }
 
