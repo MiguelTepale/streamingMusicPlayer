@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +13,48 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="streamingMusicPlayer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rj2-HP-g6n">
+                                <rect key="frame" x="0.0" y="602" width="375" height="65"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tKr-Ls-wqq">
+                                        <rect key="frame" x="171" y="15" width="32" height="32"/>
+                                        <state key="normal" image="play"/>
+                                        <connections>
+                                            <action selector="playPauseDidTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2ym-BS-u9I"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.98927420377731323" green="0.5146147608757019" blue="0.08815477043390274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="0St-Qr-rkE"/>
+                                    <constraint firstItem="tKr-Ls-wqq" firstAttribute="centerX" secondItem="rj2-HP-g6n" secondAttribute="centerX" id="CXp-qG-rVS"/>
+                                    <constraint firstAttribute="bottom" secondItem="tKr-Ls-wqq" secondAttribute="bottom" constant="18" id="PBM-Av-5vk"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <constraints>
+                            <constraint firstItem="oXr-ga-urF" firstAttribute="bottom" secondItem="rj2-HP-g6n" secondAttribute="bottom" id="O8z-yO-KO6"/>
+                            <constraint firstItem="oXr-ga-urF" firstAttribute="trailing" secondItem="rj2-HP-g6n" secondAttribute="trailing" id="s9d-Bo-ivE"/>
+                            <constraint firstItem="rj2-HP-g6n" firstAttribute="leading" secondItem="oXr-ga-urF" secondAttribute="leading" id="zP5-2d-XeI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="oXr-ga-urF"/>
                     </view>
+                    <connections>
+                        <outlet property="playPauseButton" destination="tKr-Ls-wqq" id="mJK-wf-bf9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="140" y="113.79310344827587"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="play" width="32" height="32"/>
+    </resources>
 </document>
