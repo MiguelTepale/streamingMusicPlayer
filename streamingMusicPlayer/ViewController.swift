@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var playPauseButton: UIButton!
     var player: EntertainmentPlayer!
+    var songs: [Song] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +25,7 @@ class ViewController: UIViewController {
         
         player = EntertainmentPlayer()
         
-        let url = "https://migueldevelopments.000webhostapp.com/music_app/dubstep.mp3"
-        player.playStream(fileURL: url)
-        changePlayButton()
+        retrieveSongs()
     }
     
     override var canBecomeFirstResponder: Bool {
@@ -87,6 +86,40 @@ class ViewController: UIViewController {
                 player.playAudio()
             }
         }
+    }
+    
+    func retrieveSongs() {
+        guard let url = URL(string: "https://migueldevelopments.000webhostapp.com/music_app/getMusic.php") else {
+            print("Something wrong with url from 'retrieveSongs' function")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) {(data, respone, error) in
+            guard let urlData = data, error == nil else {
+                return
+            }
+            if let retrievedList = String(data: urlData, encoding: .utf8) {
+            print(retrievedList)
+            self.parseSongs(data: retrievedList)
+            }
+        }
+        .resume()
+    }
+    
+    func parseSongs(data: String) {
+        if (data.range(of:"*") != nil) {
+            let dataArray = (data as String).characters.split{$0 == "*"}.map(String.init)
+            for item in dataArray {
+                let itemData = item.characters.split{$0 == ","}.map(String.init)
+                if let newSong = Song(id: itemData[0], name: itemData[1], numberOfLikes: itemData[02], numberOfPlays: itemData[3]) {
+                    songs.append(newSong)
+                }
+            }
+            for song in songs {
+                print(song.getName())
+            }
+        }
+        
     }
     
 }

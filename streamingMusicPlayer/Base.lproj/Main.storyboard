@@ -36,10 +36,18 @@
                                     <constraint firstAttribute="bottom" secondItem="tKr-Ls-wqq" secondAttribute="bottom" constant="18" id="PBM-Av-5vk"/>
                                 </constraints>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Rlj-pe-T23">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="602"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Rlj-pe-T23" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="5MT-ir-Pug"/>
+                            <constraint firstItem="Rlj-pe-T23" firstAttribute="trailing" secondItem="oXr-ga-urF" secondAttribute="trailing" id="6dm-9h-8Yx"/>
                             <constraint firstItem="oXr-ga-urF" firstAttribute="bottom" secondItem="rj2-HP-g6n" secondAttribute="bottom" id="O8z-yO-KO6"/>
+                            <constraint firstItem="Rlj-pe-T23" firstAttribute="leading" secondItem="oXr-ga-urF" secondAttribute="leading" id="bx2-LY-n3U"/>
+                            <constraint firstItem="rj2-HP-g6n" firstAttribute="top" secondItem="Rlj-pe-T23" secondAttribute="bottom" id="h1U-sb-2gP"/>
                             <constraint firstItem="oXr-ga-urF" firstAttribute="trailing" secondItem="rj2-HP-g6n" secondAttribute="trailing" id="s9d-Bo-ivE"/>
                             <constraint firstItem="rj2-HP-g6n" firstAttribute="leading" secondItem="oXr-ga-urF" secondAttribute="leading" id="zP5-2d-XeI"/>
                         </constraints>

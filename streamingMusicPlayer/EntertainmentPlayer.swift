@@ -52,8 +52,6 @@ class EntertainmentPlayer {
             ]
             MPNowPlayingInfoCenter.default().nowPlayingInfo = songInfo
         }
-        
-        
     }
     
 }
