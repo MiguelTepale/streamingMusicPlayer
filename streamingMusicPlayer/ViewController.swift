@@ -11,7 +11,10 @@ import MediaPlayer
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var nowPlayingLabel: UILabel!
     @IBOutlet weak var playPauseButton: UIButton!
+    @IBOutlet weak var songsTableView: UITableView!
+    
     var player: EntertainmentPlayer!
     var songs: [Song] = []
     
@@ -99,11 +102,11 @@ class ViewController: UIViewController {
                 return
             }
             if let retrievedList = String(data: urlData, encoding: .utf8) {
-            print(retrievedList)
-            self.parseSongs(data: retrievedList)
+                print(retrievedList)
+                self.parseSongs(data: retrievedList)
             }
-        }
-        .resume()
+            }
+            .resume()
     }
     
     func parseSongs(data: String) {
@@ -111,15 +114,45 @@ class ViewController: UIViewController {
             let dataArray = (data as String).characters.split{$0 == "*"}.map(String.init)
             for item in dataArray {
                 let itemData = item.characters.split{$0 == ","}.map(String.init)
-                if let newSong = Song(id: itemData[0], name: itemData[1], numberOfLikes: itemData[02], numberOfPlays: itemData[3]) {
+                if let newSong = Song(id: itemData[0], name: itemData[1], numberOfLikes: itemData[02], numberOfPlays: itemData[3], artist: itemData[4]) {
                     songs.append(newSong)
                 }
-            }
+             }
             for song in songs {
                 print(song.getName())
             }
+            DispatchQueue.main.async {
+                self.songsTableView.reloadData()
+            }
         }
         
+    }
+    
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return songs.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = songsTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongsTableViewCell
+        cell.mainLabel.text = songs[indexPath.row].getSongName()
+        cell.artistLabel.text = songs[indexPath.row].getArtistName()
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        songsTableView.deselectRow(at: indexPath, animated: true)
+        player.playStream(fileURL: "https://migueldevelopments.000webhostapp.com/music_app/" + songs[indexPath.row].getArtistName() + "-" + songs[indexPath.row].getName())
+        changePlayButton()
+        nowPlayingLabel.text = songs[indexPath.row].getSongName()
     }
     
 }

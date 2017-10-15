@@ -18,7 +18,7 @@ class EntertainmentPlayer {
     }
     
     func playStream (fileURL: String) {
-        if let url = URL(string: fileURL) {
+        if let url = URL(string: fileURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!) {
             audioVideoPlayer = AVPlayer(url: url)
             audioVideoPlayer.play()
             setPlayingScreen(fileURL: fileURL)
