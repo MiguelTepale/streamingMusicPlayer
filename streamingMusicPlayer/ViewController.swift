@@ -8,6 +8,8 @@
 
 import UIKit
 import MediaPlayer
+import Social
+import Accounts
 
 class ViewController: UIViewController {
     
@@ -15,6 +17,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var songsTableView: UITableView!
     
+    var currentId: Int!
+    var currentSong: Song!
     var player: EntertainmentPlayer!
     var songs: [Song] = []
     
@@ -25,9 +29,7 @@ class ViewController: UIViewController {
         becomeFirstResponder()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: .AVAudioSessionInterruption, object: nil)
-        
         player = EntertainmentPlayer()
-        
         retrieveSongs()
     }
     
@@ -41,6 +43,15 @@ class ViewController: UIViewController {
         }
         catch {
             print(error)
+        }
+    }
+    
+    @IBAction func facebookButtonDidTap(_ sender: UIButton) {
+        shareToFacebook()
+    }
+    @IBAction func likeButtonDidTap(_ sender: UIButton) {
+        if let id = currentId {
+        likeSong(id: id)
         }
     }
     
@@ -96,7 +107,6 @@ class ViewController: UIViewController {
             print("Something wrong with url from 'retrieveSongs' function")
             return
         }
-        
         URLSession.shared.dataTask(with: url) {(data, respone, error) in
             guard let urlData = data, error == nil else {
                 return
@@ -107,7 +117,43 @@ class ViewController: UIViewController {
             }
             }
             .resume()
+        print("Getting songs")
     }
+    
+    func songPlayed(id: Int) {
+        guard let url = URL(string: "https://migueldevelopments.000webhostapp.com/music_app/add_play.php?id=" + String(id)) else {
+            print("Something wrong with url from 'retrieveSongs' function")
+            return
+        }
+        URLSession.shared.dataTask(with: url) {(data, respone, error) in
+            guard let urlData = data, error == nil else {
+                return
+            }
+            if let retrievedData = String(data: urlData, encoding: .utf8) {
+                print(retrievedData)
+            }
+            }
+            .resume()
+        print("Liking song")
+    }
+    
+    func likeSong(id: Int) {
+        guard let url = URL(string: "https://migueldevelopments.000webhostapp.com/music_app/like_song.php?id=" + String(id)) else {
+            print("Something wrong with url from 'retrieveSongs' function")
+            return
+        }
+        URLSession.shared.dataTask(with: url) {(data, respone, error) in
+            guard let urlData = data, error == nil else {
+                return
+            }
+            if let retrievedData = String(data: urlData, encoding: .utf8) {
+                print(retrievedData)
+            }
+            }
+            .resume()
+        print("User liking song")
+    }
+
     
     func parseSongs(data: String) {
         if (data.range(of:"*") != nil) {
@@ -125,7 +171,16 @@ class ViewController: UIViewController {
                 self.songsTableView.reloadData()
             }
         }
-        
+    }
+    
+    func shareToFacebook() {
+        if let song = currentSong {
+            if let viewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook) {
+            viewController.setInitialText("Listening to: " + song.getName() + "by" + song.getArtistName() + ".Penny Play App")
+//            viewController.add(URL(string: "https://github.com/MiguelTepale"))
+                present(viewController, animated: true, completion: nil)
+            }
+        }
     }
     
 }
@@ -153,6 +208,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         player.playStream(fileURL: "https://migueldevelopments.000webhostapp.com/music_app/" + songs[indexPath.row].getArtistName() + "-" + songs[indexPath.row].getName())
         changePlayButton()
         nowPlayingLabel.text = songs[indexPath.row].getSongName()
+        songPlayed(id: songs[indexPath.row].getId())
+        currentId = songs[indexPath.row].getId()
+        currentSong = songs[indexPath.row]
     }
     
 }
